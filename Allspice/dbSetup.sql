@@ -26,6 +26,7 @@ CREATE TABLE IF NOT EXISTS recipes(
 --
 CREATE TABLE IF NOT EXISTS ingredients(
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  creatorId varchar(255) NOT NULL,
   recipeId INT NOT NULL,
   createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
   updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -33,11 +34,13 @@ CREATE TABLE IF NOT EXISTS ingredients(
   name TEXT NOT NULL,
   quantity varchar(5000) DEFAULT 'no quantity provided',
   --
+  FOREIGN KEY (creatorId) REFERENCES accounts(id),
   FOREIGN KEY (recipeId) REFERENCES recipes(id)
 ) default charset utf8;
 --
 --
 DROP TABLE IF EXISTS recipes;
+DROP TABLE IF EXISTS ingredients;
 --
 --
 INSERT INTO
@@ -96,12 +99,7 @@ LIMIT
   --
   --
   --
-INSERT INTO
-  ingredients(name, quantity, recipeId)
-VALUES
-  ("Egg", "One Egg", 4);
---
-  --
+  -- NOTE Ingredients
 SELECT
   i.*,
   r.*
@@ -110,3 +108,45 @@ FROM
   JOIN recipes r
 WHERE
   i.recipeId = r.id;
+--
+  --
+INSERT INTO
+  ingredients(name, quantity, recipeId, creatorId)
+VALUES
+  (
+    "Sugar",
+    "One Cup",
+    5,
+    '621fe5d6dbe50cea2b338f0c'
+  );
+--
+  --
+SELECT
+  *
+FROM
+  ingredients;
+--
+  --
+SELECT
+  *
+FROM
+  ingredients
+WHERE
+  recipeId = 5;
+--
+  --
+UPDATE
+  ingredients
+SET
+  name = "Noodle",
+  quantity = "One box"
+WHERE
+  id = 1;
+--
+  --
+DELETE FROM
+  ingredients
+WHERE
+  id = 2
+LIMIT
+  1;
