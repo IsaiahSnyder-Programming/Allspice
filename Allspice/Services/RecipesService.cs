@@ -18,6 +18,16 @@ namespace Allspice.Services
             return _recipeRepo.GetAll();
         }
 
+        internal Recipe GetById(int id)
+        {
+            Recipe found = _recipeRepo.GetById(id);
+            if (found == null)
+            {
+                throw new Exception("Invalid Id");
+            }
+            return found;
+        }
+
         internal Recipe Create(Recipe recipeData)
         {
             return _recipeRepo.Create(recipeData);

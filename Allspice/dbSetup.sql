@@ -24,6 +24,19 @@ CREATE TABLE IF NOT EXISTS recipes(
 ) default charset utf8;
 --
 --
+CREATE TABLE IF NOT EXISTS ingredients(
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  recipeId INT NOT NULL,
+  createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+  updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  --
+  name TEXT NOT NULL,
+  quantity varchar(5000) DEFAULT 'no quantity provided',
+  --
+  FOREIGN KEY (recipeId) REFERENCES recipes(id)
+) default charset utf8;
+--
+--
 DROP TABLE IF EXISTS recipes;
 --
 --
@@ -78,3 +91,22 @@ WHERE
   id = 3
 LIMIT
   1;
+--
+  --
+  --
+  --
+  --
+INSERT INTO
+  ingredients(name, quantity, recipeId)
+VALUES
+  ("Egg", "One Egg", 4);
+--
+  --
+SELECT
+  i.*,
+  r.*
+FROM
+  ingredients i
+  JOIN recipes r
+WHERE
+  i.recipeId = r.id;

@@ -33,6 +33,20 @@ namespace Allspice.Controllers
             }
         }
 
+        [HttpGet("{id}")]
+        public ActionResult<Recipe> GetById(int id)
+        {
+            try
+            {
+                Recipe recipes = _rs.GetById(id);
+                return Ok(recipes);
+            }
+            catch (System.Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
         [HttpPost]
         [Authorize]
         public async Task<ActionResult<Recipe>> Create([FromBody] Recipe recipeData)
